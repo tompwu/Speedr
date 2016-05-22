@@ -22,11 +22,11 @@ function dieEvent() {
 
 // GAME OVER EVENT
 function gameoverEvent() {
-  pauseText3 = game.add.text(220, 150, 'GAME OVER', {
+    pauseText3 = game.add.text(220, 150, 'GAME OVER', {
     fontSize: '32px',
     fill: 'white'
   });
-  pauseText = game.add.text(165, 185, 'Press P to Start Again', {
+    pauseText = game.add.text(165, 185, 'Press P to Start Again', {
     fontSize: '32px',
     fill: 'white'
   });
@@ -157,7 +157,7 @@ var generateElementCollect = function ( group, singular, counter)
         // these times are used to stop a loop to increase scores
         var lastUpdated = Math.floor(Date.now() / 1000);
         var getScore = function () {
-          return score;
+        return score;
         };
         var updateScore = function () {
           var timeNow = Math.floor(Date.now() / 1000);
@@ -177,6 +177,7 @@ var generateElementCollect = function ( group, singular, counter)
       var Scorer = Score();
       return Scorer;
     }
+
 
 		var player = null;
 		var platforms;

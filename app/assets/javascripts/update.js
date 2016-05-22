@@ -113,6 +113,7 @@ function enemyKill(player, Spike) {
       }, this);
       player.reset(300, 300);
 
+      // This needs to be updated as score cannot be accessed therefore doesn't reset
       score = 0;
       scoreText.text = 'Score: ' + game.Scorer.getScore();
 
