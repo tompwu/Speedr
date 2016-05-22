@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SPEEDR</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= include_gon %>
+  <%= Gon::Base.render_data %>
+  <%= csrf_meta_tags %>
+  <%= favicon_link_tag 'assets/images/player.ico' %>
+
+</head>
+<body>
+<div class="container">
+
+  <nav>
+    <%= link_to 'Home', root_path %>
+    <%= link_to 'Instructions', faq_path %>
+
+    <!-- <%= link_to 'Leaderboard', highscores_path %> -->
+    <% if @current_user.present? %>
+     <% if @current_user.admin? %>
+     <%= link_to 'All Users', users_path %>
+    <% end %>
+                <%= link_to "Logout #{@current_user.username}", login_path, :method => :delete %>
+                <%= link_to "Edit Profile", edit_user_path(@current_user) %>
+              <% else %>
+                <%= link_to "Sign up", signup_path %>
+                <%= link_to "Login", login_path %>
+              <% end %>
+       </nav>
+
+  <% if flash[:error].present? %>
+  <h2> class="error"
+   <%= flash[:error] %>
+  </h2>
+  <% end %>
+
+
+
+<%= yield %>
+
+<script type="text/template" id='faqViewTemplate'>
+
+ <div id="aunid"></div>
+<div class="userscore">
+  <h2 >YOUR HIGHSCORE</h2>
+  <p id="highscore" class="scorelist">0</p>
+</div>
+
+<div class="scorebox">
+<h2>HIGHSCORES</h2>
+<% @allhighscores.each_with_index do |scorelist, index| %>
+<div class="scorelist">
+
+
+<p>
+  <% if index == 0  %>
+  <%= image_tag "crown.png" %>
+<% end %>
+<% if index == 1  %>
+<%= image_tag "silvercrown.png" %>
+<% end %>
+<% if index == 2  %>
+<%= image_tag "bronzecrown.png" %>
+<% end %>
+
+  User:
+<%= scorelist.user.username if scorelist.user %>
+   =>
+  Score:
+<%= scorelist.score if scorelist.score%>
+
+<% if index == 0  %>
+<%= image_tag "crown.png" %>
+<% end %>
+<% if index == 1  %>
+<%= image_tag "silvercrown.png" %>
+<% end %>
+<% if index == 2  %>
+<%= image_tag "bronzecrown.png" %>
+<% end %>
+
+</p>
+</div>
+<% end %>
+</div>
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,189 @@
+//SHOWS WELCOME TEXT
+function welcomeEvent() {
+  pauseText = game.add.text(210, 150, '    SPEEDR', {
+    fontSize: '32px',
+    fill: 'gold'
+  });
+
+  pauseText2 = game.add.text(195, 400, 'Press P To Start', {
+    fontSize: '32px',
+    fill: 'white'
+  });
+}
+
+
+// DEATH EVENT
+function dieEvent() {
+  pauseText = game.add.text(245, 300, 'YOU DIED', {
+    fontSize: '32px',
+    fill: 'white'
+  });
+}
+
+// GAME OVER EVENT
+function gameoverEvent() {
+  pauseText3 = game.add.text(220, 150, 'GAME OVER', {
+    fontSize: '32px',
+    fill: 'white'
+  });
+  pauseText = game.add.text(165, 185, 'Press P to Start Again', {
+    fontSize: '32px',
+    fill: 'white'
+  });
+  }
+
+// PAUSE GAME
+var key1;
+function pauseGame () {
+  if (!this.game.paused) {
+    game.paused = true;
+    pauseText = game.add.text(245, 300, 'PAUSED', {
+      fontSize: '32px',
+      fill: 'white'
+    });
+  } else if (this.game.paused){
+    game.paused = false;
+    pauseText.visible = false;
+    pauseText2.visible = false;
+    pauseText3.visible = false;
+
+  }
+}
+
+//RANDOM STAR GENERATOR
+var generateElementCollect = function ( group, singular, counter)
+ {
+	//  We will enable physics for any star that is created in this group
+	group.enableBody = true;
+	//  Here we'll create 12 of them evenly spaced apart
+	for (var i = 0; i < counter; i++) {
+		//  Create Random placed star inside of the 'stars' group
+		var xPos = Math.random() * (game.width - 20);
+		var yPos = Math.random() * (game.height - 20);
+
+		// if position is within( x and y section )
+		var element = group.create(xPos,
+				yPos, singular);
+
+	}
+	return group;
+};
+
+  //RANDOM ENEMY GENERATOR
+  var generateSpikes = function(number) {
+    number = enemyMultiplierCount;
+    var xPosSpike = 0;
+    var yPosSpike = 0;
+    var Direction;
+
+    Spikes = game.add.group();
+    Spikes.enableBody = true;
+    // sets number of bugs
+    for (var i = 0; i < number; i++) {
+
+    // DICTATES ENEMY SPAWN
+    var sideRandomizer = Math.random();
+
+    //TOP
+    if (sideRandomizer <= 0.25) {
+    xPosSpike = Math.random() * (game.width);
+    yPosSpike = 0;
+    xDirection = "Top";
+    }
+
+    //RIGHT
+    else if ((sideRandomizer > 0.25) && (sideRandomizer <= 0.5))  {
+    xPosSpike = game.width;
+    yPosSpike = Math.random() * (game.height);
+    xDirection = "Right";
+    }
+
+    //BOTTOM
+    else if ((sideRandomizer > 0.5) && (sideRandomizer <= 0.75)) {
+    xPosSpike = Math.random() * (game.width);
+    yPosSpike = game.width;
+    xDirection = "Bottom";
+    }
+
+    //LEFT
+    else if ((sideRandomizer > 0.75) && (sideRandomizer <= 1)) {
+    xPosSpike = 0;
+    yPosSpike = Math.random() * (game.height);
+    xDirection = "Left";
+    }
+
+    // if position is within( x and y section )
+    var Spike = Spikes.create(xPosSpike,
+    yPosSpike, "Spike");
+
+    //prevents sprite from acting strangely on rotate
+    Spike.anchor.setTo(0.5, 0.5);
+
+    //the velocity axis determines whether it moves horizontal or vertical
+    // SETTING DIRECTECTION FOR ENEMY
+    if        (xDirection === "Top") {
+      Spike.body.velocity.y = 200 * enemySpeedCount;
+    } else if (xDirection === "Right") {
+      Spike.body.velocity.x = -200 * enemySpeedCount;
+    } else if (xDirection === "Bottom") {
+      Spike.body.velocity.y = -200 * enemySpeedCount;
+    } else if (xDirection === "Left") {
+      Spike.body.velocity.x = 200 * enemySpeedCount;
+    }
+    }
+  };
+    /////////////////////////////////////////////////////////////////////////////
+    //                      SETTING UP CANVAS AND GAME
+		//////////////////////////////////////////////////////////////////////////
+
+		var game = new Phaser.Game(600, 600, Phaser.AUTO, 'aunid', {
+			preload: preload,
+			create: create,
+			update: update
+		});
+
+		/////////////////////////////////////////////////////////////////////////////
+		function preload() {
+			/////////////////////////////////////////////////////////////////////////////
+
+          game.load.image('star', '<%= image_path("star.png") %>');
+    			game.load.image('Spike', '<%= image_path("spike.png") %>');
+    			game.load.image('player', '<%= image_path("player.png") %>', 20, 20);
+		}
+    // score is stored within an interior function, can't be called.
+    function initScorer () {
+      var Score = (function () {
+        var score = 0;
+        // these times are used to stop a loop to increase scores
+        var lastUpdated = Math.floor(Date.now() / 1000);
+        var getScore = function () {
+          return score;
+        };
+        var updateScore = function () {
+          var timeNow = Math.floor(Date.now() / 1000);
+          if (timeNow - lastUpdated < 1) {
+            lastUpdated = timeNow;
+            return "Stop it";
+          }
+          lastUpdated = timeNow;
+          score = score + 10;
+          return score;
+        };
+        return {
+          getScore: getScore,
+          updateScore: updateScore
+        };
+      });
+      var Scorer = Score();
+      return Scorer;
+    }
+
+		var player = null;
+		var platforms;
+		var SpikeCount = 0;
+		var stars;
+
+		game.Scorer = initScorer();
+		var scoreText;
+		var lives = 3;
+		var livesText;

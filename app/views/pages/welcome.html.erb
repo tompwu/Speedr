@@ -1,0 +1,44 @@
+<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+
+<div id="aunid"></div>
+<div class="userscore">
+  <h2 >YOUR HIGHSCORE</h2>
+  <p id="highscore" class="scorelist">0</p>
+</div>
+
+<div class="scorebox">
+<h2>HIGHSCORES</h2>
+<% @allhighscores.each_with_index do |scorelist, index| %>
+<div class="scorelist">
+
+
+<p>
+  <% if index == 0  %>
+  <%= image_tag "crown.png" %>
+<% end %>
+<% if index == 1  %>
+<%= image_tag "silvercrown.png" %>
+<% end %>
+<% if index == 2  %>
+<%= image_tag "bronzecrown.png" %>
+<% end %>
+
+  User:
+<%= scorelist.user.username if scorelist.user %>
+   =>
+  Score:
+<%= scorelist.score if scorelist.score%>
+
+<% if index == 0  %>
+<%= image_tag "crown.png" %>
+<% end %>
+<% if index == 1  %>
+<%= image_tag "silvercrown.png" %>
+<% end %>
+<% if index == 2  %>
+<%= image_tag "bronzecrown.png" %>
+<% end %>
+</p>
+</div>
+<% end %>
+</div>
