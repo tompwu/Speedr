@@ -7,7 +7,7 @@ https://speedr.herokuapp.com/
 * Rails 4.3.6
 * Ruby 2.3.0
 * Phaser.io
-* Jquery
+* jQuery
 * Ajax
 * Heroku
 * Html
@@ -20,7 +20,7 @@ https://speedr.herokuapp.com/
 * Bcrypt
 
 ## Deployed to:
-Heroku
+* Heroku
 
 ## Models:
 

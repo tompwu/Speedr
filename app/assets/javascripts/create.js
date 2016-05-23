@@ -1,6 +1,6 @@
 var roundStarted = false;
 
-function initialLoad () {
+function initialLoad() {
 
   // INTRO TEXT
   welcomeEvent();
@@ -21,7 +21,7 @@ function create() {
   /////////////////////////////////////////////////////////////////////////////
 
   key1 = game.input.keyboard.addKey(Phaser.Keyboard.P);
-      key1.onDown.add(pauseGame, this);
+  key1.onDown.add(pauseGame, this);
 
 
   /////////////////////////////////////////////////////////////////////////////
@@ -60,7 +60,7 @@ function create() {
 
   //  We will enable physics for any star that is created in this group
   stars.enableBody = true;
-  generateElementCollect( stars, "star", 1);
+  generateElementCollect(stars, "star", 1);
 
 
   /////////////////////////////////////////////////////////////////////////////
@@ -69,7 +69,7 @@ function create() {
   if (!roundStarted) {
     initialLoad();
     roundStarted = true;
-    }
+  }
 
   game.time.events.loop(Phaser.Timer.SECOND * 3, generateSpikes, this);
 

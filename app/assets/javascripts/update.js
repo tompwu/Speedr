@@ -1,4 +1,3 @@
-
 /////////////////////////////////////////////////////////////////////////////
 function update() {
 
@@ -67,67 +66,66 @@ function update() {
 
 function enemyKill(player, Spike) {
   if (lives !== 0) {
-      //Kills player
-  player.kill();
+    //Kills player
+    player.kill();
 
-  if (player.kill()) {
-    Spikes.forEach(function(Spike) {
-      Spike.visible = false;
-      Spike.kill();
-
-    }, this);
-  }
-  dieEvent();
-  this.game.paused = true;
-  //Resets the player to initial position on death
-  player.reset(300, 300);
-
-  // reduces a life
-  lives -= 1;
-  livesText.text = 'Lives: ' + lives;
-
-  // If The Player is killed the stars wipe
-  if (player.kill()) {
-    stars.forEach(function(star) {
-      star.kill();
-    }, this);
-  }
-
-  // Stars are now respawned randomly
-  generateElementCollect( stars, "star", 1);
-} else
-
-  //////////////////////////////////////////////////////////////////////////////		       			Terms for game over function
-  ////////////////////////////////////////////////////////////////////////////
-
-    if (lives === 0) {
-      enemySpeedCount = 1;
-      gameoverEvent();
-      this.game.paused = true;
-      player.kill();
+    if (player.kill()) {
       Spikes.forEach(function(Spike) {
         Spike.visible = false;
         Spike.kill();
 
-
       }, this);
-      player.reset(300, 300);
-
-      // This needs to be updated as score cannot be accessed therefore doesn't reset
-      score = 0;
-      scoreText.text = 'Score: ' + game.Scorer.getScore();
-
-        stars.forEach(function(star) {
-          star.kill();
-        }, this);
-
-      enemyMultiplierCount = 1;
-
-      generateElementCollect( stars, "star", 1);
-      lives = 3;
-      livesText.text = 'lives: ' + lives;
-
     }
+    dieEvent();
+    this.game.paused = true;
+    //Resets the player to initial position on death
+    player.reset(300, 300);
+
+    // reduces a life
+    lives -= 1;
+    livesText.text = 'Lives: ' + lives;
+
+    // If The Player is killed the stars wipe
+    if (player.kill()) {
+      stars.forEach(function(star) {
+        star.kill();
+      }, this);
+    }
+
+    // Stars are now respawned randomly
+    generateElementCollect(stars, "star", 1);
+  } else
+
+  //////////////////////////////////////////////////////////////////////////////		       			Terms for game over function
+  ////////////////////////////////////////////////////////////////////////////
+
+  if (lives === 0) {
+    enemySpeedCount = 1;
+    gameoverEvent();
+    this.game.paused = true;
+    player.kill();
+    Spikes.forEach(function(Spike) {
+      Spike.visible = false;
+      Spike.kill();
+    }, this);
+
+    player.reset(300, 300);
+
+    // Resets the score
+    game.Scorer.resetScore();
+    scoreText.text = 'Score: ' + game.Scorer.getScore();
+
+    stars.forEach(function(star) {
+      star.kill();
+    }, this);
+
+    enemyMultiplierCount = 1;
+
+    generateElementCollect(stars, "star", 1);
+    lives = 3;
+    livesText.text = 'lives: ' + lives;
+
+  }
 
 
   // Respawns the player (now visible again)
@@ -159,14 +157,14 @@ function collectStar(player, star) {
   game.Scorer.updateScore();
   storeScore();
   scoreText.text = 'score: ' + game.Scorer.getScore();
-  generateElementCollect( stars, "star", 1);
+  generateElementCollect(stars, "star", 1);
 
   // used to speed up enemies etc
   enemySpeedCount += 0.01;
   // used to add enemy spawn count
   testEnemyMultiplierCount += 1;
 
-// if 15 stars collected spawn an extra enemy
+  // if 15 stars collected spawn an extra enemy
   if (testEnemyMultiplierCount >= 25) {
     testEnemyMultiplierCount = 1;
     enemyMultiplierCount += 1;
@@ -179,15 +177,15 @@ function collectStar(player, star) {
 
 var storeScore = function(score) {
   // if (score <= score + 10) {
-$.ajax({
+  $.ajax({
     url: "/highscores",
     method: "POST",
     dataType: "json",
     data: {
-    highscore: {
-    score: game.Scorer.getScore(),
-    scoreMD5: md5(game.Scorer.getScore()),
-    user_id: gon.user_id
+      highscore: {
+        score: game.Scorer.getScore(),
+        scoreMD5: md5(game.Scorer.getScore()),
+        user_id: gon.user_id
       }
     },
     complete: function(jqXHR, textStatus) {
@@ -196,11 +194,11 @@ $.ajax({
     error: function(jqXHR, textStatus, errorThrown) {
       console.error('Request error', textStatus, errorThrown);
     },
-    success: function(data){
+    success: function(data) {
       console.log('Request success');
-     $('#highscore').html(data.score);
+      $('#highscore').html(data.score);
       console.log(data);
     }
   });
-// }
+  // }
 };

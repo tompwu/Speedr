@@ -169,9 +169,14 @@ var generateElementCollect = function ( group, singular, counter)
           score = score + 10;
           return score;
         };
+        var resetScore = function () {
+          score = 0;
+          console.log("die");
+        };
         return {
           getScore: getScore,
-          updateScore: updateScore
+          updateScore: updateScore,
+          resetScore: resetScore
         };
       });
       var Scorer = Score();
